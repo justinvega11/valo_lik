@@ -1,7 +1,9 @@
 # Virtual Environment
 venv/
 env/
-.env/
+*.env
 .venv/
 ENV/
 *.swp
+*.log
+*.pyc
