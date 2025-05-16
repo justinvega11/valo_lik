@@ -9,6 +9,7 @@ import os
 import asyncio
 import sys
 import signal
+
 GUILD_ID = discord.Object(id=215291855686991873)
 
 
