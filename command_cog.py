@@ -5,6 +5,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker, relationship, session
 from database import SessionLocal
 import crud
+import aiohttp
+import valorant_api
 GUILD_ID = discord.Object(id=215291855686991873)
 
 
@@ -25,9 +27,15 @@ class Client(commands.Cog):
     @app_commands.command(name="get_riot_id", description='Enter your riot name and tag:"username" "Tag" ex: "four inch curve" "NA1"')
     async def get_riot_id(self,interaction: discord.Interaction, username: str, tag: str):
         db = SessionLocal()
+
         try:
-            user = crud.create_user(db,str(interaction.user.id),interaction.user.name, username,tag)
-            await interaction.response.send_message(f"Username : {username} Tag: {tag}  has been added" )
+            puuid = await valorant_api.get_puuid(username,tag)
+            if puuid:
+
+                user = crud.create_user(db,str(interaction.user.id),interaction.user.name,puuid, username,tag)
+                await interaction.response.send_message(f"Username : {username} Tag: {tag}  has been added" )
+            else:
+                raise Exception("get puuid failed")
         finally:
             print("db closing in create user")
             db.close()

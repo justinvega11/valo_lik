@@ -9,6 +9,8 @@ import os
 import asyncio
 import sys
 import signal
+import aiohttp
+
 
 GUILD_ID = discord.Object(id=215291855686991873)
 
